@@ -1,0 +1,867 @@
+2024-07-03 08:00:43.846 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 08:00:43.972 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:00:43.992 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 08:00:58.833 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 08:00:58.967 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:00:59.232 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 08:00:59.553 +04:00  INF  Executed DbCommand (257ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [CourseAppClassPractice];
+2024-07-03 08:00:59.633 +04:00  INF  Executed DbCommand (78ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [CourseAppClassPractice] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2024-07-03 08:00:59.647 +04:00  INF  Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2024-07-03 08:00:59.723 +04:00  INF  Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2024-07-03 08:00:59.725 +04:00  INF  Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2024-07-03 08:00:59.742 +04:00  INF  Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2024-07-03 08:00:59.753 +04:00  INF  Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2024-07-03 08:00:59.766 +04:00  INF  Applying migration '20240624080652_CreatedCountryTable'.
+2024-07-03 08:00:59.792 +04:00  INF  Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Countries] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Countries] PRIMARY KEY ([Id])
+);
+2024-07-03 08:00:59.798 +04:00  INF  Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240624080652_CreatedCountryTable', N'6.0.31');
+2024-07-03 08:00:59.801 +04:00  INF  Applying migration '20240625053847_CreatedCityTable'.
+2024-07-03 08:00:59.816 +04:00  INF  Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Cities] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [Population] int NOT NULL,
+    [CountryId] int NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Cities] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Cities_Countries_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [Countries] ([Id]) ON DELETE CASCADE
+);
+2024-07-03 08:00:59.820 +04:00  INF  Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Cities_CountryId] ON [Cities] ([CountryId]);
+2024-07-03 08:00:59.821 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240625053847_CreatedCityTable', N'6.0.31');
+2024-07-03 08:00:59.822 +04:00  INF  Applying migration '20240701052122_CreatedNewTables'.
+2024-07-03 08:00:59.929 +04:00  INF  Executed DbCommand (85ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Countries]') AND [c].[name] = N'Name');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Countries] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [Countries] ALTER COLUMN [Name] nvarchar(100) NOT NULL;
+2024-07-03 08:00:59.952 +04:00  INF  Executed DbCommand (23ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Cities]') AND [c].[name] = N'Name');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [Cities] DROP CONSTRAINT [' + @var1 + '];');
+ALTER TABLE [Cities] ALTER COLUMN [Name] nvarchar(50) NOT NULL;
+2024-07-03 08:00:59.953 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Educations] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Educations] PRIMARY KEY ([Id])
+);
+2024-07-03 08:00:59.955 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Rooms] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [SeatCount] int NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Rooms] PRIMARY KEY ([Id])
+);
+2024-07-03 08:00:59.958 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Students] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [Surname] nvarchar(max) NOT NULL,
+    [Address] nvarchar(max) NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [Age] int NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Students] PRIMARY KEY ([Id])
+);
+2024-07-03 08:00:59.960 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Teachers] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [Surname] nvarchar(max) NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [Age] int NOT NULL,
+    [Salary] decimal(18,2) NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Teachers] PRIMARY KEY ([Id])
+);
+2024-07-03 08:00:59.963 +04:00  INF  Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Groups] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [Capacity] int NOT NULL,
+    [EducationId] int NOT NULL,
+    [RoomId] int NOT NULL,
+    [SoftDelete] bit NOT NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Groups] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Groups_Educations_EducationId] FOREIGN KEY ([EducationId]) REFERENCES [Educations] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Groups_Rooms_RoomId] FOREIGN KEY ([RoomId]) REFERENCES [Rooms] ([Id]) ON DELETE CASCADE
+);
+2024-07-03 08:00:59.966 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [GroupStudents] (
+    [Id] int NOT NULL IDENTITY,
+    [StudentId] int NOT NULL,
+    [GroupId] int NOT NULL,
+    CONSTRAINT [PK_GroupStudents] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_GroupStudents_Groups_GroupId] FOREIGN KEY ([GroupId]) REFERENCES [Groups] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_GroupStudents_Students_StudentId] FOREIGN KEY ([StudentId]) REFERENCES [Students] ([Id]) ON DELETE CASCADE
+);
+2024-07-03 08:00:59.968 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [GroupTeachers] (
+    [Id] int NOT NULL IDENTITY,
+    [TeacherId] int NOT NULL,
+    [GroupId] int NOT NULL,
+    CONSTRAINT [PK_GroupTeachers] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_GroupTeachers_Groups_GroupId] FOREIGN KEY ([GroupId]) REFERENCES [Groups] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_GroupTeachers_Teachers_TeacherId] FOREIGN KEY ([TeacherId]) REFERENCES [Teachers] ([Id]) ON DELETE CASCADE
+);
+2024-07-03 08:00:59.969 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Groups_EducationId] ON [Groups] ([EducationId]);
+2024-07-03 08:00:59.970 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Groups_RoomId] ON [Groups] ([RoomId]);
+2024-07-03 08:00:59.971 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_GroupStudents_GroupId] ON [GroupStudents] ([GroupId]);
+2024-07-03 08:00:59.972 +04:00  INF  Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_GroupStudents_StudentId] ON [GroupStudents] ([StudentId]);
+2024-07-03 08:00:59.973 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_GroupTeachers_GroupId] ON [GroupTeachers] ([GroupId]);
+2024-07-03 08:00:59.973 +04:00  INF  Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_GroupTeachers_TeacherId] ON [GroupTeachers] ([TeacherId]);
+2024-07-03 08:00:59.974 +04:00  INF  Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240701052122_CreatedNewTables', N'6.0.31');
+2024-07-03 08:00:59.974 +04:00  INF  Applying migration '20240702060343_UpdateGroupTeachersTable'.
+2024-07-03 08:00:59.989 +04:00  INF  Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [GroupTeachers] ADD [CreatedDate] datetime2 NOT NULL DEFAULT '0001-01-01T00:00:00.0000000';
+2024-07-03 08:00:59.991 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [GroupTeachers] ADD [SoftDelete] bit NOT NULL DEFAULT CAST(0 AS bit);
+2024-07-03 08:00:59.992 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240702060343_UpdateGroupTeachersTable', N'6.0.31');
+2024-07-03 08:00:59.992 +04:00  INF  Applying migration '20240702071336_UpdateStudentGroupTable'.
+2024-07-03 08:01:00.003 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [GroupStudents] ADD [CreatedDate] datetime2 NOT NULL DEFAULT '0001-01-01T00:00:00.0000000';
+2024-07-03 08:01:00.004 +04:00  INF  Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [GroupStudents] ADD [SoftDelete] bit NOT NULL DEFAULT CAST(0 AS bit);
+2024-07-03 08:01:00.004 +04:00  INF  Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240702071336_UpdateStudentGroupTable', N'6.0.31');
+2024-07-03 08:01:00.005 +04:00  INF  Applying migration '20240703040044_CreatedTable'.
+2024-07-03 08:01:00.030 +04:00  INF  Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240703040044_CreatedTable', N'6.0.31');
+2024-07-03 08:01:45.114 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 08:01:45.154 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 08:01:45.159 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 08:01:45.164 +04:00  INF  Hosting environment: Development
+2024-07-03 08:01:45.164 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 08:01:45.579 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger - -
+2024-07-03 08:01:45.956 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger - - - 301 0 - 383.7342ms
+2024-07-03 08:01:45.958 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 08:01:46.075 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 117.1613ms
+2024-07-03 08:01:46.084 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/swagger-ui-bundle.js - -
+2024-07-03 08:01:46.084 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/swagger-ui.css - -
+2024-07-03 08:01:46.084 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/swagger-ui-standalone-preset.js - -
+2024-07-03 08:01:46.084 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - -
+2024-07-03 08:01:46.084 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_vs/browserLink - -
+2024-07-03 08:01:46.088 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - - - 200 11976 application/javascript;+charset=utf-8 3.9973ms
+2024-07-03 08:01:46.120 +04:00  INF  Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2024-07-03 08:01:46.121 +04:00  INF  Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2024-07-03 08:01:46.122 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 38.2576ms
+2024-07-03 08:01:46.123 +04:00  INF  Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2024-07-03 08:01:46.123 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 39.5842ms
+2024-07-03 08:01:46.124 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/swagger-ui.css - - - 200 144929 text/css 39.7850ms
+2024-07-03 08:01:46.169 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 84.1747ms
+2024-07-03 08:01:46.262 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - -
+2024-07-03 08:01:46.280 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/favicon-32x32.png - -
+2024-07-03 08:01:46.281 +04:00  INF  Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2024-07-03 08:01:46.281 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/favicon-32x32.png - - - 200 628 image/png 1.0739ms
+2024-07-03 08:01:46.410 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 148.0120ms
+2024-07-03 08:02:18.255 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 26
+2024-07-03 08:02:18.271 +04:00  INF  Executing endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:18.338 +04:00  INF  Route matched with {action = "Create", controller = "Education"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Educations.EducationCreateDto) on controller App.Controllers.Admin.EducationController (App).
+2024-07-03 08:02:20.134 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 08:02:20.410 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:02:22.540 +04:00  INF  Executed DbCommand (103ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Educations] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Educations]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:02:22.659 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:02:22.712 +04:00  INF  Executed action App.Controllers.Admin.EducationController.Create (App) in 4364.4685ms
+2024-07-03 08:02:22.714 +04:00  INF  Executed endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:22.721 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 26 - 201 - application/json;+charset=utf-8 4465.8063ms
+2024-07-03 08:02:30.760 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 22
+2024-07-03 08:02:30.766 +04:00  INF  Executing endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:30.767 +04:00  INF  Route matched with {action = "Create", controller = "Education"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Educations.EducationCreateDto) on controller App.Controllers.Admin.EducationController (App).
+2024-07-03 08:02:30.858 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:02:30.867 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Educations] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Educations]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:02:30.870 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:02:30.871 +04:00  INF  Executed action App.Controllers.Admin.EducationController.Create (App) in 104.1148ms
+2024-07-03 08:02:30.871 +04:00  INF  Executed endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:30.872 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 22 - 201 - application/json;+charset=utf-8 111.0427ms
+2024-07-03 08:02:38.165 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 25
+2024-07-03 08:02:38.165 +04:00  INF  Executing endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:38.165 +04:00  INF  Route matched with {action = "Create", controller = "Education"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Educations.EducationCreateDto) on controller App.Controllers.Admin.EducationController (App).
+2024-07-03 08:02:38.198 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:02:38.204 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Educations] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Educations]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:02:38.205 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:02:38.206 +04:00  INF  Executed action App.Controllers.Admin.EducationController.Create (App) in 40.4151ms
+2024-07-03 08:02:38.206 +04:00  INF  Executed endpoint 'App.Controllers.Admin.EducationController.Create (App)'
+2024-07-03 08:02:38.206 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Education/Create application/json 25 - 201 - application/json;+charset=utf-8 41.1804ms
+2024-07-03 08:02:49.299 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Education/GetAll - -
+2024-07-03 08:02:49.299 +04:00  INF  Executing endpoint 'App.Controllers.Admin.EducationController.GetAll (App)'
+2024-07-03 08:02:49.305 +04:00  INF  Route matched with {action = "GetAll", controller = "Education"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.EducationController (App).
+2024-07-03 08:02:49.306 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:02:49.757 +04:00  INF  Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [e].[Id], [e].[CreatedDate], [e].[Name], [e].[SoftDelete]
+FROM [Educations] AS [e]
+2024-07-03 08:02:49.788 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Educations.EducationDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 08:02:49.792 +04:00  INF  Executed action App.Controllers.Admin.EducationController.GetAll (App) in 486.6211ms
+2024-07-03 08:02:49.792 +04:00  INF  Executed endpoint 'App.Controllers.Admin.EducationController.GetAll (App)'
+2024-07-03 08:02:49.792 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Education/GetAll - - - 200 - application/json;+charset=utf-8 493.2908ms
+2024-07-03 08:03:28.970 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Room/Create application/json 38
+2024-07-03 08:03:28.971 +04:00  INF  Executing endpoint 'App.Controllers.Admin.RoomController.Create (App)'
+2024-07-03 08:03:28.976 +04:00  INF  Route matched with {action = "Create", controller = "Room"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Rooms.RoomCreateDto) on controller App.Controllers.Admin.RoomController (App).
+2024-07-03 08:03:28.978 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:03:29.009 +04:00  INF  Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = Int32), @p3='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Rooms] ([CreatedDate], [Name], [SeatCount], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [Rooms]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:03:29.012 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:03:29.012 +04:00  INF  Executed action App.Controllers.Admin.RoomController.Create (App) in 36.4203ms
+2024-07-03 08:03:29.012 +04:00  INF  Executed endpoint 'App.Controllers.Admin.RoomController.Create (App)'
+2024-07-03 08:03:29.013 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Room/Create application/json 38 - 201 - application/json;+charset=utf-8 42.9779ms
+2024-07-03 08:03:39.216 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Room/Create application/json 39
+2024-07-03 08:03:39.218 +04:00  INF  Executing endpoint 'App.Controllers.Admin.RoomController.Create (App)'
+2024-07-03 08:03:39.218 +04:00  INF  Route matched with {action = "Create", controller = "Room"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Rooms.RoomCreateDto) on controller App.Controllers.Admin.RoomController (App).
+2024-07-03 08:03:39.219 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:03:39.222 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = Int32), @p3='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Rooms] ([CreatedDate], [Name], [SeatCount], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [Rooms]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:03:39.225 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:03:39.225 +04:00  INF  Executed action App.Controllers.Admin.RoomController.Create (App) in 7.119ms
+2024-07-03 08:03:39.226 +04:00  INF  Executed endpoint 'App.Controllers.Admin.RoomController.Create (App)'
+2024-07-03 08:03:39.226 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Room/Create application/json 39 - 201 - application/json;+charset=utf-8 10.3661ms
+2024-07-03 08:05:22.048 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Teacher/Create application/json 109
+2024-07-03 08:05:22.048 +04:00  INF  Executing endpoint 'App.Controllers.Admin.TeacherController.Create (App)'
+2024-07-03 08:05:22.053 +04:00  INF  Route matched with {action = "Create", controller = "Teacher"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Teachers.TeacherCreateDto) on controller App.Controllers.Admin.TeacherController (App).
+2024-07-03 08:05:22.054 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:05:22.123 +04:00  INF  Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Teachers] ([Age], [CreatedDate], [Email], [Name], [Salary], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Teachers]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:05:22.127 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:05:22.127 +04:00  INF  Executed action App.Controllers.Admin.TeacherController.Create (App) in 74.2596ms
+2024-07-03 08:05:22.127 +04:00  INF  Executed endpoint 'App.Controllers.Admin.TeacherController.Create (App)'
+2024-07-03 08:05:22.128 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Teacher/Create application/json 109 - 201 - application/json;+charset=utf-8 79.9977ms
+2024-07-03 08:05:47.834 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Teacher/Create application/json 108
+2024-07-03 08:05:47.839 +04:00  INF  Executing endpoint 'App.Controllers.Admin.TeacherController.Create (App)'
+2024-07-03 08:05:47.839 +04:00  INF  Route matched with {action = "Create", controller = "Teacher"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Teachers.TeacherCreateDto) on controller App.Controllers.Admin.TeacherController (App).
+2024-07-03 08:05:47.840 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:05:47.843 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Teachers] ([Age], [CreatedDate], [Email], [Name], [Salary], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Teachers]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:05:47.844 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:05:47.844 +04:00  INF  Executed action App.Controllers.Admin.TeacherController.Create (App) in 5.1492ms
+2024-07-03 08:05:47.845 +04:00  INF  Executed endpoint 'App.Controllers.Admin.TeacherController.Create (App)'
+2024-07-03 08:05:47.845 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Teacher/Create application/json 108 - 201 - application/json;+charset=utf-8 10.4540ms
+2024-07-03 08:05:58.521 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Teacher/GetAll - -
+2024-07-03 08:05:58.522 +04:00  INF  Executing endpoint 'App.Controllers.Admin.TeacherController.GetAll (App)'
+2024-07-03 08:05:58.526 +04:00  INF  Route matched with {action = "GetAll", controller = "Teacher"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.TeacherController (App).
+2024-07-03 08:05:58.530 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:05:58.543 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[Age], [t].[CreatedDate], [t].[Email], [t].[Name], [t].[Salary], [t].[SoftDelete], [t].[Surname]
+FROM [Teachers] AS [t]
+2024-07-03 08:05:58.551 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Teachers.TeacherDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 08:05:58.559 +04:00  INF  Executed action App.Controllers.Admin.TeacherController.GetAll (App) in 32.7327ms
+2024-07-03 08:05:58.559 +04:00  INF  Executed endpoint 'App.Controllers.Admin.TeacherController.GetAll (App)'
+2024-07-03 08:05:58.559 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Teacher/GetAll - - - 200 - application/json;+charset=utf-8 37.9066ms
+2024-07-03 08:06:27.396 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Group/Create application/json 92
+2024-07-03 08:06:27.396 +04:00  INF  Executing endpoint 'App.Controllers.Admin.GroupController.Create (App)'
+2024-07-03 08:06:27.408 +04:00  INF  Route matched with {action = "Create", controller = "Group"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Groups.GroupCreateDto) on controller App.Controllers.Admin.GroupController (App).
+2024-07-03 08:06:27.410 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:06:27.472 +04:00  INF  Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Groups] ([Capacity], [CreatedDate], [EducationId], [Name], [RoomId], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+SELECT [Id]
+FROM [Groups]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:06:27.521 +04:00  INF  Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupTeachers] ([CreatedDate], [GroupId], [SoftDelete], [TeacherId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupTeachers]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:06:27.525 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:06:27.526 +04:00  INF  Executed action App.Controllers.Admin.GroupController.Create (App) in 117.8131ms
+2024-07-03 08:06:27.526 +04:00  INF  Executed endpoint 'App.Controllers.Admin.GroupController.Create (App)'
+2024-07-03 08:06:27.526 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Group/Create application/json 92 - 201 - application/json;+charset=utf-8 129.9077ms
+2024-07-03 08:07:00.574 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Group/Create application/json 92
+2024-07-03 08:07:00.580 +04:00  INF  Executing endpoint 'App.Controllers.Admin.GroupController.Create (App)'
+2024-07-03 08:07:00.580 +04:00  INF  Route matched with {action = "Create", controller = "Group"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Groups.GroupCreateDto) on controller App.Controllers.Admin.GroupController (App).
+2024-07-03 08:07:00.581 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:07:00.591 +04:00  INF  Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Groups] ([Capacity], [CreatedDate], [EducationId], [Name], [RoomId], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+SELECT [Id]
+FROM [Groups]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:07:00.594 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupTeachers] ([CreatedDate], [GroupId], [SoftDelete], [TeacherId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupTeachers]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:07:00.595 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:07:00.595 +04:00  INF  Executed action App.Controllers.Admin.GroupController.Create (App) in 15.3369ms
+2024-07-03 08:07:00.596 +04:00  INF  Executed endpoint 'App.Controllers.Admin.GroupController.Create (App)'
+2024-07-03 08:07:00.596 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Group/Create application/json 92 - 201 - application/json;+charset=utf-8 22.2915ms
+2024-07-03 08:11:30.335 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 131
+2024-07-03 08:11:30.336 +04:00  INF  Executing endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:11:30.346 +04:00  INF  Route matched with {action = "Create", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Students.StudentCreateDto) on controller App.Controllers.Admin.StudentController (App).
+2024-07-03 08:11:30.347 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:11:30.401 +04:00  INF  Executed DbCommand (5ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Students] ([Address], [Age], [CreatedDate], [Email], [Name], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Students]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:11:30.430 +04:00  INF  Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupStudents] ([CreatedDate], [GroupId], [SoftDelete], [StudentId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupStudents]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:11:30.433 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:11:30.434 +04:00  INF  Executed action App.Controllers.Admin.StudentController.Create (App) in 88.1196ms
+2024-07-03 08:11:30.434 +04:00  INF  Executed endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:11:30.434 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 131 - 201 - application/json;+charset=utf-8 98.9662ms
+2024-07-03 08:11:58.934 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 138
+2024-07-03 08:11:58.939 +04:00  INF  Executing endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:11:58.939 +04:00  INF  Route matched with {action = "Create", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Students.StudentCreateDto) on controller App.Controllers.Admin.StudentController (App).
+2024-07-03 08:11:58.941 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:11:58.944 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Students] ([Address], [Age], [CreatedDate], [Email], [Name], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Students]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:11:58.947 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupStudents] ([CreatedDate], [GroupId], [SoftDelete], [StudentId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupStudents]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:11:58.948 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:11:58.949 +04:00  INF  Executed action App.Controllers.Admin.StudentController.Create (App) in 9.4062ms
+2024-07-03 08:11:58.949 +04:00  INF  Executed endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:11:58.949 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 138 - 201 - application/json;+charset=utf-8 15.4347ms
+2024-07-03 08:12:28.730 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 145
+2024-07-03 08:12:28.730 +04:00  INF  Executing endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:12:28.730 +04:00  INF  Route matched with {action = "Create", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Students.StudentCreateDto) on controller App.Controllers.Admin.StudentController (App).
+2024-07-03 08:12:28.741 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:12:28.746 +04:00  INF  Executed DbCommand (2ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Students] ([Address], [Age], [CreatedDate], [Email], [Name], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Students]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:12:28.748 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupStudents] ([CreatedDate], [GroupId], [SoftDelete], [StudentId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupStudents]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:12:28.750 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:12:28.750 +04:00  INF  Executed action App.Controllers.Admin.StudentController.Create (App) in 19.7899ms
+2024-07-03 08:12:28.750 +04:00  INF  Executed endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:12:28.751 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 145 - 201 - application/json;+charset=utf-8 20.9960ms
+2024-07-03 08:12:55.709 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 142
+2024-07-03 08:12:55.709 +04:00  INF  Executing endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:12:55.710 +04:00  INF  Route matched with {action = "Create", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Students.StudentCreateDto) on controller App.Controllers.Admin.StudentController (App).
+2024-07-03 08:12:55.710 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:12:55.727 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Students] ([Address], [Age], [CreatedDate], [Email], [Name], [SoftDelete], [Surname])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [Students]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:12:55.732 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [GroupStudents] ([CreatedDate], [GroupId], [SoftDelete], [StudentId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [GroupStudents]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 08:12:55.733 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 08:12:55.734 +04:00  INF  Executed action App.Controllers.Admin.StudentController.Create (App) in 23.9385ms
+2024-07-03 08:12:55.734 +04:00  INF  Executed endpoint 'App.Controllers.Admin.StudentController.Create (App)'
+2024-07-03 08:12:55.734 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Student/Create application/json 142 - 201 - application/json;+charset=utf-8 24.6217ms
+2024-07-03 08:13:03.656 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Student/GetAll - -
+2024-07-03 08:13:03.658 +04:00  INF  Executing endpoint 'App.Controllers.Admin.StudentController.GetAll (App)'
+2024-07-03 08:13:03.663 +04:00  INF  Route matched with {action = "GetAll", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.StudentController (App).
+2024-07-03 08:13:03.673 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:13:03.957 +04:00  INF  Executed DbCommand (23ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[Address], [s].[Age], [s].[CreatedDate], [s].[Email], [s].[Name], [s].[SoftDelete], [s].[Surname], [t].[Id], [t].[CreatedDate], [t].[GroupId], [t].[SoftDelete], [t].[StudentId], [t].[Id0], [t].[Capacity], [t].[CreatedDate0], [t].[EducationId], [t].[Name], [t].[RoomId], [t].[SoftDelete0]
+FROM [Students] AS [s]
+LEFT JOIN (
+    SELECT [g].[Id], [g].[CreatedDate], [g].[GroupId], [g].[SoftDelete], [g].[StudentId], [g0].[Id] AS [Id0], [g0].[Capacity], [g0].[CreatedDate] AS [CreatedDate0], [g0].[EducationId], [g0].[Name], [g0].[RoomId], [g0].[SoftDelete] AS [SoftDelete0]
+    FROM [GroupStudents] AS [g]
+    INNER JOIN [Groups] AS [g0] ON [g].[GroupId] = [g0].[Id]
+) AS [t] ON [s].[Id] = [t].[StudentId]
+ORDER BY [s].[Id], [t].[Id]
+2024-07-03 08:13:03.989 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Students.StudentDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 08:13:03.992 +04:00  INF  Executed action App.Controllers.Admin.StudentController.GetAll (App) in 327.2595ms
+2024-07-03 08:13:03.992 +04:00  INF  Executed endpoint 'App.Controllers.Admin.StudentController.GetAll (App)'
+2024-07-03 08:13:03.992 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Student/GetAll - - - 200 - application/json;+charset=utf-8 335.7628ms
+2024-07-03 08:13:23.767 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Group/GetAll - -
+2024-07-03 08:13:23.767 +04:00  INF  Executing endpoint 'App.Controllers.Admin.GroupController.GetAll (App)'
+2024-07-03 08:13:23.779 +04:00  INF  Route matched with {action = "GetAll", controller = "Group"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.GroupController (App).
+2024-07-03 08:13:23.783 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 08:13:23.854 +04:00  WRN  Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-07-03 08:13:23.902 +04:00  INF  Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [g].[Id], [g].[Capacity], [g].[CreatedDate], [g].[EducationId], [g].[Name], [g].[RoomId], [g].[SoftDelete], [e].[Id], [e].[CreatedDate], [e].[Name], [e].[SoftDelete], [r].[Id], [r].[CreatedDate], [r].[Name], [r].[SeatCount], [r].[SoftDelete], [t0].[Id], [t0].[CreatedDate], [t0].[GroupId], [t0].[SoftDelete], [t0].[TeacherId], [t0].[Id0], [t0].[Age], [t0].[CreatedDate0], [t0].[Email], [t0].[Name], [t0].[Salary], [t0].[SoftDelete0], [t0].[Surname], [t1].[Id], [t1].[CreatedDate], [t1].[GroupId], [t1].[SoftDelete], [t1].[StudentId], [t1].[Id0], [t1].[Address], [t1].[Age], [t1].[CreatedDate0], [t1].[Email], [t1].[Name], [t1].[SoftDelete0], [t1].[Surname]
+FROM [Groups] AS [g]
+INNER JOIN [Educations] AS [e] ON [g].[EducationId] = [e].[Id]
+INNER JOIN [Rooms] AS [r] ON [g].[RoomId] = [r].[Id]
+LEFT JOIN (
+    SELECT [g0].[Id], [g0].[CreatedDate], [g0].[GroupId], [g0].[SoftDelete], [g0].[TeacherId], [t].[Id] AS [Id0], [t].[Age], [t].[CreatedDate] AS [CreatedDate0], [t].[Email], [t].[Name], [t].[Salary], [t].[SoftDelete] AS [SoftDelete0], [t].[Surname]
+    FROM [GroupTeachers] AS [g0]
+    INNER JOIN [Teachers] AS [t] ON [g0].[TeacherId] = [t].[Id]
+) AS [t0] ON [g].[Id] = [t0].[GroupId]
+LEFT JOIN (
+    SELECT [g1].[Id], [g1].[CreatedDate], [g1].[GroupId], [g1].[SoftDelete], [g1].[StudentId], [s].[Id] AS [Id0], [s].[Address], [s].[Age], [s].[CreatedDate] AS [CreatedDate0], [s].[Email], [s].[Name], [s].[SoftDelete] AS [SoftDelete0], [s].[Surname]
+    FROM [GroupStudents] AS [g1]
+    INNER JOIN [Students] AS [s] ON [g1].[StudentId] = [s].[Id]
+) AS [t1] ON [g].[Id] = [t1].[GroupId]
+ORDER BY [g].[Id], [e].[Id], [r].[Id], [t0].[Id], [t0].[Id0], [t1].[Id]
+2024-07-03 08:13:23.922 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Groups.GroupDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 08:13:23.924 +04:00  INF  Executed action App.Controllers.Admin.GroupController.GetAll (App) in 144.9315ms
+2024-07-03 08:13:23.924 +04:00  INF  Executed endpoint 'App.Controllers.Admin.GroupController.GetAll (App)'
+2024-07-03 08:13:23.924 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Group/GetAll - - - 200 - application/json;+charset=utf-8 157.5187ms
+2024-07-03 15:11:29.885 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 15:11:29.901 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 15:11:29.903 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 15:11:29.904 +04:00  INF  Hosting environment: Development
+2024-07-03 15:11:29.904 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 15:11:30.212 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 15:11:30.444 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 235.6475ms
+2024-07-03 15:11:30.531 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - -
+2024-07-03 15:11:30.532 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - - - 200 11976 application/javascript;+charset=utf-8 1.1217ms
+2024-07-03 15:11:30.532 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_vs/browserLink - -
+2024-07-03 15:11:30.575 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 43.1480ms
+2024-07-03 15:11:30.681 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - -
+2024-07-03 15:11:30.749 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 68.0244ms
+2024-07-03 15:11:41.274 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - -
+2024-07-03 15:11:41.282 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:11:41.334 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:11:42.206 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 15:11:42.327 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:11:42.703 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:11:42.704 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:11:43.715 +04:00  INF  Executed DbCommand (91ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2024-07-03 15:11:43.771 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:11:43.782 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 2440.6857ms
+2024-07-03 15:11:43.783 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:11:43.788 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - - - 200 - application/json;+charset=utf-8 2513.7932ms
+2024-07-03 15:12:37.645 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Country/GetAll - -
+2024-07-03 15:12:37.647 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CountryController.GetAll (App)'
+2024-07-03 15:12:37.652 +04:00  INF  Route matched with {action = "GetAll", controller = "Country"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.CountryController (App).
+2024-07-03 15:12:37.720 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:12:37.745 +04:00  INF  Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+2024-07-03 15:12:37.751 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Countries.CountryDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:12:37.753 +04:00  INF  Executed action App.Controllers.Admin.CountryController.GetAll (App) in 100.1805ms
+2024-07-03 15:12:37.753 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CountryController.GetAll (App)'
+2024-07-03 15:12:37.753 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Country/GetAll - - - 200 - application/json;+charset=utf-8 107.9399ms
+2024-07-03 15:12:50.915 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 26
+2024-07-03 15:12:50.916 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:12:50.921 +04:00  INF  Route matched with {action = "Create", controller = "Country"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Countries.CountryCreateDto) on controller App.Controllers.Admin.CountryController (App).
+2024-07-03 15:12:50.938 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:12:51.218 +04:00  INF  Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Countries] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Countries]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:12:51.272 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:12:51.295 +04:00  INF  Executed action App.Controllers.Admin.CountryController.Create (App) in 373.7842ms
+2024-07-03 15:12:51.295 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:12:51.295 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 26 - 201 - application/json;+charset=utf-8 380.3565ms
+2024-07-03 15:12:57.453 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 23
+2024-07-03 15:12:57.453 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:12:57.453 +04:00  INF  Route matched with {action = "Create", controller = "Country"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Countries.CountryCreateDto) on controller App.Controllers.Admin.CountryController (App).
+2024-07-03 15:12:57.457 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:12:57.463 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Countries] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Countries]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:12:57.467 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:12:57.468 +04:00  INF  Executed action App.Controllers.Admin.CountryController.Create (App) in 15.2643ms
+2024-07-03 15:12:57.468 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:12:57.469 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 23 - 201 - application/json;+charset=utf-8 16.0224ms
+2024-07-03 15:13:03.056 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 20
+2024-07-03 15:13:03.057 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:13:03.057 +04:00  INF  Route matched with {action = "Create", controller = "Country"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Countries.CountryCreateDto) on controller App.Controllers.Admin.CountryController (App).
+2024-07-03 15:13:03.057 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:13:03.063 +04:00  INF  Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Countries] ([CreatedDate], [Name], [SoftDelete])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [Countries]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:13:03.065 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:13:03.066 +04:00  INF  Executed action App.Controllers.Admin.CountryController.Create (App) in 9.2899ms
+2024-07-03 15:13:03.066 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CountryController.Create (App)'
+2024-07-03 15:13:03.066 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/Country/Create application/json 20 - 201 - application/json;+charset=utf-8 9.9033ms
+2024-07-03 15:13:08.210 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/Country/GetAll - -
+2024-07-03 15:13:08.210 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CountryController.GetAll (App)'
+2024-07-03 15:13:08.210 +04:00  INF  Route matched with {action = "GetAll", controller = "Country"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.CountryController (App).
+2024-07-03 15:13:08.211 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:13:08.215 +04:00  INF  Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+2024-07-03 15:13:08.219 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Countries.CountryDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:13:08.226 +04:00  INF  Executed action App.Controllers.Admin.CountryController.GetAll (App) in 15.8887ms
+2024-07-03 15:13:08.226 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CountryController.GetAll (App)'
+2024-07-03 15:13:08.227 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/Country/GetAll - - - 200 - application/json;+charset=utf-8 16.5227ms
+2024-07-03 15:13:34.148 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 62
+2024-07-03 15:13:34.149 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:34.154 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:13:34.156 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:13:34.231 +04:00  INF  Executed DbCommand (8ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:13:34.263 +04:00  INF  Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:13:34.268 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:13:34.269 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 114.4039ms
+2024-07-03 15:13:34.269 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:34.269 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 62 - 201 - application/json;+charset=utf-8 121.4082ms
+2024-07-03 15:13:44.048 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 61
+2024-07-03 15:13:44.048 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:44.048 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:13:44.051 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:13:44.054 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:13:44.057 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:13:44.058 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:13:44.059 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 10.3581ms
+2024-07-03 15:13:44.059 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:44.059 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 61 - 201 - application/json;+charset=utf-8 10.9717ms
+2024-07-03 15:13:54.015 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63
+2024-07-03 15:13:54.015 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:54.015 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:13:54.016 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:13:54.017 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:13:54.021 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:13:54.023 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:13:54.023 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 8.0605ms
+2024-07-03 15:13:54.023 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:13:54.024 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63 - 201 - application/json;+charset=utf-8 8.7190ms
+2024-07-03 15:14:05.101 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 65
+2024-07-03 15:14:05.101 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:05.101 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:14:05.102 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:14:05.103 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:14:05.106 +04:00  INF  Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:14:05.107 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:14:05.108 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 6.4253ms
+2024-07-03 15:14:05.108 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:05.108 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 65 - 201 - application/json;+charset=utf-8 7.0448ms
+2024-07-03 15:14:16.124 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63
+2024-07-03 15:14:16.124 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:16.124 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:14:16.125 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:14:16.129 +04:00  INF  Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:14:16.134 +04:00  INF  Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:14:16.136 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:14:16.136 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 11.652ms
+2024-07-03 15:14:16.136 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:16.136 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63 - 201 - application/json;+charset=utf-8 12.1868ms
+2024-07-03 15:14:27.213 +04:00  INF  Request starting HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63
+2024-07-03 15:14:27.214 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:27.214 +04:00  INF  Route matched with {action = "Create", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Service.DTOs.Admin.Cities.CityCreateDto) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:14:27.214 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:14:27.218 +04:00  INF  Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name], [c].[SoftDelete]
+FROM [Countries] AS [c]
+WHERE [c].[Id] = @__id_0
+2024-07-03 15:14:27.223 +04:00  INF  Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 50), @p3='?' (DbType = Int32), @p4='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Cities] ([CountryId], [CreatedDate], [Name], [Population], [SoftDelete])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [Id]
+FROM [Cities]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2024-07-03 15:14:27.226 +04:00  INF  Executing CreatedAtActionResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2024-07-03 15:14:27.226 +04:00  INF  Executed action App.Controllers.Admin.CityController.Create (App) in 12.6085ms
+2024-07-03 15:14:27.227 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.Create (App)'
+2024-07-03 15:14:27.227 +04:00  INF  Request finished HTTP/2 POST https://localhost:7095/api/admin/City/Create application/json 63 - 201 - application/json;+charset=utf-8 13.4040ms
+2024-07-03 15:14:32.718 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetAll - -
+2024-07-03 15:14:32.718 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetAll (App)'
+2024-07-03 15:14:32.727 +04:00  INF  Route matched with {action = "GetAll", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:14:32.728 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:14:32.807 +04:00  INF  Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete], [c0].[Id], [c0].[CreatedDate], [c0].[Name], [c0].[SoftDelete]
+FROM [Cities] AS [c]
+INNER JOIN [Countries] AS [c0] ON [c].[CountryId] = [c0].[Id]
+2024-07-03 15:14:32.822 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:14:32.823 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetAll (App) in 95.765ms
+2024-07-03 15:14:32.823 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetAll (App)'
+2024-07-03 15:14:32.823 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetAll - - - 200 - application/json;+charset=utf-8 105.5400ms
+2024-07-03 15:14:57.629 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - -
+2024-07-03 15:14:57.630 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:14:57.630 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:14:57.630 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:14:57.634 +04:00  INF  Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2024-07-03 15:14:57.635 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:14:57.635 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 5.4362ms
+2024-07-03 15:14:57.635 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:14:57.635 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - - - 200 - application/json;+charset=utf-8 5.9829ms
+2024-07-03 15:15:03.803 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=2&take=2 - -
+2024-07-03 15:15:03.803 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:15:03.803 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:15:03.804 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:15:03.805 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:15:03.805 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:15:03.810 +04:00  INF  Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_0 ROWS ONLY
+2024-07-03 15:15:03.811 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:15:03.811 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 7.4428ms
+2024-07-03 15:15:03.811 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:15:03.811 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=2&take=2 - - - 200 - application/json;+charset=utf-8 8.0126ms
+2024-07-03 15:15:10.033 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=3&take=2 - -
+2024-07-03 15:15:10.033 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:15:10.033 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:15:10.034 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:15:10.036 +04:00  INF  Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2024-07-03 15:15:10.037 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:15:10.037 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 3.7847ms
+2024-07-03 15:15:10.037 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:15:10.037 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=3&take=2 - - - 200 - application/json;+charset=utf-8 4.4377ms
+2024-07-03 15:47:52.781 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 15:47:52.803 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 15:47:52.807 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 15:47:52.807 +04:00  INF  Hosting environment: Development
+2024-07-03 15:47:52.807 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 15:48:00.773 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 15:48:01.219 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 450.1979ms
+2024-07-03 15:48:01.870 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 15:48:01.881 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 10.9257ms
+2024-07-03 15:48:01.905 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - -
+2024-07-03 15:48:01.905 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_vs/browserLink - -
+2024-07-03 15:48:01.907 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - - - 200 11976 application/javascript;+charset=utf-8 2.7430ms
+2024-07-03 15:48:01.947 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 41.6921ms
+2024-07-03 15:48:02.035 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - -
+2024-07-03 15:48:02.185 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 150.2728ms
+2024-07-03 15:48:12.614 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - -
+2024-07-03 15:48:12.621 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:48:12.666 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 15:48:13.870 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 15:48:13.985 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 15:48:16.078 +04:00  INF  Executed DbCommand (36ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+2024-07-03 15:48:16.126 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:48:16.128 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 15:48:16.283 +04:00  INF  Executed DbCommand (143ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2024-07-03 15:48:16.369 +04:00  INF  Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 15:48:16.378 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 3706.0727ms
+2024-07-03 15:48:16.378 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 15:48:16.386 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - - - 200 - application/json;+charset=utf-8 3772.0834ms
+2024-07-03 15:59:51.126 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 15:59:51.141 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 15:59:51.143 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 15:59:51.143 +04:00  INF  Hosting environment: Development
+2024-07-03 15:59:51.144 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 15:59:51.275 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 15:59:51.400 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 126.6553ms
+2024-07-03 15:59:51.409 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - -
+2024-07-03 15:59:51.409 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_vs/browserLink - -
+2024-07-03 15:59:51.410 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - - - 200 11976 application/javascript;+charset=utf-8 0.9188ms
+2024-07-03 15:59:51.429 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 20.4479ms
+2024-07-03 15:59:51.593 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - -
+2024-07-03 15:59:51.648 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 55.3441ms
+2024-07-03 16:01:54.437 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - -
+2024-07-03 16:01:54.446 +04:00  INF  Executing endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 16:01:54.492 +04:00  INF  Route matched with {action = "GetPaginateDatas", controller = "City"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPaginateDatas(Int32, Int32) on controller App.Controllers.Admin.CityController (App).
+2024-07-03 16:01:55.338 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 16:01:55.508 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 16:01:56.129 +04:00  INF  Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+2024-07-03 16:01:56.177 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 16:01:56.178 +04:00  WRN  The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2024-07-03 16:01:56.210 +04:00  INF  Executed DbCommand (24ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CountryId], [c].[CreatedDate], [c].[Name], [c].[Population], [c].[SoftDelete]
+FROM [Cities] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2024-07-03 16:01:56.264 +04:00  INF  Executing OkObjectResult, writing value of type 'Repository.Helpers.PaginationResponse`1[[Service.DTOs.Admin.Cities.CityDto, Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-07-03 16:01:56.274 +04:00  INF  Executed action App.Controllers.Admin.CityController.GetPaginateDatas (App) in 1777.6269ms
+2024-07-03 16:01:56.275 +04:00  INF  Executed endpoint 'App.Controllers.Admin.CityController.GetPaginateDatas (App)'
+2024-07-03 16:01:56.280 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/api/admin/City/GetPaginateDatas?page=1&take=2 - - - 200 - application/json;+charset=utf-8 1843.2758ms
+2024-07-03 16:06:12.093 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 16:06:12.108 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 16:06:12.110 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 16:06:12.111 +04:00  INF  Hosting environment: Development
+2024-07-03 16:06:12.111 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 16:06:12.255 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/index.html - -
+2024-07-03 16:06:12.369 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/index.html - - - 200 - text/html;charset=utf-8 115.5384ms
+2024-07-03 16:06:12.377 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - -
+2024-07-03 16:06:12.377 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/_vs/browserLink - -
+2024-07-03 16:06:12.378 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_framework/aspnetcore-browser-refresh.js - - - 200 11976 application/javascript;+charset=utf-8 0.9101ms
+2024-07-03 16:06:12.399 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 21.2205ms
+2024-07-03 16:06:12.544 +04:00  INF  Request starting HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - -
+2024-07-03 16:06:12.602 +04:00  INF  Request finished HTTP/2 GET https://localhost:7095/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 57.5374ms
+2024-07-03 16:48:50.981 +04:00  WRN  No store type was specified for the decimal property 'Salary' on entity type 'Teacher'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-07-03 16:48:51.139 +04:00  INF  Entity Framework Core 6.0.31 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: None
+2024-07-03 16:49:00.563 +04:00  INF  User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-07-03 16:49:01.771 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 16:49:01.771 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 16:49:01.776 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 16:49:01.776 +04:00  INF  Hosting environment: Development
+2024-07-03 16:49:01.776 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
+2024-07-03 16:49:03.832 +04:00  INF  User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-07-03 16:49:03.917 +04:00  INF  Now listening on: https://localhost:7095
+2024-07-03 16:49:03.917 +04:00  INF  Now listening on: http://localhost:5035
+2024-07-03 16:49:03.919 +04:00  INF  Application started. Press Ctrl+C to shut down.
+2024-07-03 16:49:03.919 +04:00  INF  Hosting environment: Development
+2024-07-03 16:49:03.919 +04:00  INF  Content root path: C:\Users\user\Desktop\Hometask\CourseAppTask\App\
